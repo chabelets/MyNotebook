@@ -19,7 +19,7 @@ import com.example.tom.mynotebook.utility.BackendSettings;
 import com.example.tom.mynotebook.utility.LoadingCallback;
 import com.example.tom.mynotebook.utility.Validator;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends AppCompatActivity {
 
     private static final int REGISTER_REQUEST_CODE = 1;
     private EditText loginEditText;
@@ -93,6 +93,7 @@ public class LoginActivity extends Activity {
                 super.handleResponse( loggedInUser );
                 Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivityForResult( loginIntent, REGISTER_REQUEST_CODE );
+                finish();
                 Toast.makeText( LoginActivity.this, String.format( getString( R.string.info_logged_in ), loggedInUser.getObjectId() ), Toast.LENGTH_LONG ).show();
             }
         };

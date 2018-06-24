@@ -3,13 +3,11 @@ package com.example.tom.mynotebook.wrappers;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.tom.mynotebook.constants.DBConstants;
 import com.example.tom.mynotebook.models.NoteEntity;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class NoteDBWrapper extends BaseDBWrapper {
 
@@ -38,13 +36,41 @@ public class NoteDBWrapper extends BaseDBWrapper {
 
 
     public NoteEntity getNoteById(long nId) {
-        return null;
+        NoteEntity result = null;
+        SQLiteDatabase db = getReadableDB();
+        String strSelection = DBConstants.DB_FIELD_ID + "=?";
+        String[] argSelection = new String[]{Long.toString(nId)};
+        Cursor cursor = db.query(getTableName(), null, strSelection, argSelection,
+                null, null, null);
+        if (cursor != null){
+            if (cursor.moveToFirst()){
+                int nPositionHeadline = cursor.getColumnIndex(DBConstants.DB_FIELD_HEADLINE);
+                int nPositionNoteText = cursor.getColumnIndex(DBConstants.DB_FIELD_NOTE_TEXT);
+
+                String strHeadLine = cursor.getString(nPositionHeadline);
+                String strNoteText = cursor.getString(nPositionNoteText);
+
+                result = new NoteEntity(strHeadLine, strNoteText);
+            }
+            cursor.close();
+        }
+
+        db.close();
+        return result;
     }
 
 
-    public void insertUser(NoteEntity note) {
+    public void insertNote(NoteEntity note) {
         SQLiteDatabase db = getWritableDB();
         db.insert(getTableName(), null, note.getContentValues());
+        db.close();
+    }
+
+    public void updateNote(NoteEntity note){
+        SQLiteDatabase db = getWritableDB();
+        String strSelection = DBConstants.DB_FIELD_ID + "=?";
+        String[] argSelection = new String[]{Long.toString(note.getNoteId())};
+        db.update(getTableName(), note.getContentValues(), strSelection, argSelection);
         db.close();
     }
 }

@@ -13,8 +13,8 @@ public class NoteEntity {
 
     public NoteEntity(Cursor cursor){
         int nPositionId = cursor.getColumnIndex(DBConstants.DB_FIELD_ID);
-        int nPositionHeadline = cursor.getColumnIndex(DBConstants.DB_HEADLINE);
-        int nPositionNoteText = cursor.getColumnIndex(DBConstants.DB_NOTE_TEXT);
+        int nPositionHeadline = cursor.getColumnIndex(DBConstants.DB_FIELD_HEADLINE);
+        int nPositionNoteText = cursor.getColumnIndex(DBConstants.DB_FIELD_NOTE_TEXT);
 
         this.mNoteId = cursor.getLong(nPositionId);
         this.mHeadline = cursor.getString(nPositionHeadline);
@@ -25,6 +25,10 @@ public class NoteEntity {
         this.mNoteId = mNoteId;
         this.mHeadline = mHeadline;
         this.mNoteText = mNoteText;
+    }
+
+    public NoteEntity(String mHeadline, String mNoteText){
+        this(-1, mHeadline, mNoteText);
     }
 
     public long getNoteId() {
@@ -53,8 +57,8 @@ public class NoteEntity {
 
     public ContentValues getContentValues(){
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DBConstants.DB_HEADLINE, getHeadline());
-        contentValues.put(DBConstants.DB_NOTE_TEXT, getNoteText());
+        contentValues.put(DBConstants.DB_FIELD_HEADLINE, getHeadline());
+        contentValues.put(DBConstants.DB_FIELD_NOTE_TEXT, getNoteText());
         return contentValues;
     }
 }

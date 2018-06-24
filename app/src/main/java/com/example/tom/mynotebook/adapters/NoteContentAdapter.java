@@ -23,6 +23,21 @@ public class NoteContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private @Nullable OnClickListener listener;
 
+    public NoteContentAdapter() {
+        data = new ArrayList<>();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        int result = TYPE_ITEM;
+//        if (position == 0){
+//            result = TYPE_HEADER;
+//        } else if (position == (getItemCount() - 1)){
+//            result = TYPE_FOOTER;
+//        }
+        return result;
+    }
+
     public void setOnClickListener(OnClickListener listener) {
         this.listener = listener;
     }
@@ -48,20 +63,25 @@ public class NoteContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        NoteContentViewHolder noteContentViewHolder = (NoteContentViewHolder) holder;
-        final NoteEntity item = data.get(position - 1);
+        int nType = getItemViewType(position);
 
-        noteContentViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (listener != null){
-                    listener.onClickItem(item.getNoteId());
+        if(nType == TYPE_ITEM) {
+
+            NoteContentViewHolder noteContentViewHolder = (NoteContentViewHolder) holder;
+            final NoteEntity item = data.get(position - 1);
+
+            noteContentViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (listener != null) {
+                        listener.onClickItem(item.getNoteId());
+                    }
                 }
-            }
-        });
+            });
 
-        noteContentViewHolder.headlineTextView.setText(item.getNoteId() + " " + item.getHeadline());
-        noteContentViewHolder.noteTextTextView.setText(item.getNoteText());
+            noteContentViewHolder.headlineTextView.setText(item.getNoteId() + " " + item.getHeadline());
+            noteContentViewHolder.noteTextTextView.setText(item.getNoteText());
+        }
     }
 
 //    int nType = getItemViewType(position);
@@ -86,9 +106,8 @@ public class NoteContentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemCount() {
-        return data == null ? 0 : data.size() + 2;
-//        return 0;
-    }
+//        return data == null ? 0 : data.size() ;
+        return data.size() + 2;    }
 
     public void updateDataOnScreen() {
         this.data.clear();
