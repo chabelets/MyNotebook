@@ -7,18 +7,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.example.tom.mynotebook.R;
 import com.example.tom.mynotebook.engines.NoteEngine;
 import com.example.tom.mynotebook.models.NoteEntity;
 
-public class EditorActivity extends AppCompatActivity {
+public class EditorActivity extends AppCompatActivity implements View.OnClickListener {
 
-    public static final String KEY_USER_ID = "KEY_USER_ID";
+    public static final String KEY_NOTE_ID = "KEY_NOTE_ID";
     private EditText headlineEditText;
     private EditText noteTextEditText;
-    private long mUserId = -1;
-
+    private long mNoteId = -1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,32 +25,31 @@ public class EditorActivity extends AppCompatActivity {
 
         headlineEditText = findViewById(R.id.headlineEditTextEditorActivity);
         noteTextEditText = findViewById(R.id.noteTextEditTextEditorActivity);
-        Button saveButton = findViewById(R.id.saveButtonEditorActivity);
-        saveButton.setOnClickListener(createSaveButtonListener());
 
+        Button saveButton = findViewById(R.id.saveButtonEditorActivity);
+        saveButton.setOnClickListener(this);
+
+        Button removeButton = findViewById(R.id.removeButtonEditorActivity);
+        removeButton.setOnClickListener(this);
 
         Bundle bundle = getIntent().getExtras();
 
         if (bundle != null){
-            mUserId = bundle.getLong(KEY_USER_ID, -1);
+            mNoteId = bundle.getLong(KEY_NOTE_ID, -1);
         }
 
-        if (mUserId != -1){
-            NoteEntity noteEntity = new NoteEngine(this).getNoteById(mUserId);
-
+        if (mNoteId != -1){
+            removeButton.setVisibility(View.VISIBLE);
+            NoteEntity noteEntity = new NoteEngine(this).getNoteById(mNoteId);
             headlineEditText.setText(noteEntity.getHeadline());
             noteTextEditText.setText(noteEntity.getNoteText());
-
-//            addButton.setText("Update");
-//            removeButton.setVisibility(View.VISIBLE);
-
         }
     }
 
-    private View.OnClickListener createSaveButtonListener() {
-        return new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.saveButtonEditorActivity:
                 String strHeadline = headlineEditText.getText().toString();
                 String strNoteText = noteTextEditText.getText().toString();
 
@@ -61,22 +58,27 @@ public class EditorActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
 
-                NoteEntity noteEntity = new NoteEntity(0, strHeadline, strNoteText );
-
+                NoteEntity noteEntity = new NoteEntity(mNoteId, strHeadline, strNoteText );
                 NoteEngine noteEngine = new NoteEngine(EditorActivity.this);
 
-//                if (mUserId != -1){
-//                    noteEngine.updateNote(noteEntity);
-//                    finish();
-//                } else {
+                if (mNoteId != -1){
+                    noteEngine.updateNote(noteEntity);
+                    finish();
+                } else {
                     noteEngine.insertNote(noteEntity);
                     headlineEditText.setText("");
                     noteTextEditText.setText("");
                     headlineEditText.requestFocus();
-//                }
-
-
-            }
-        };
+                }
+                break;
+            case R.id.removeButtonEditorActivity:
+                new NoteEngine(this).removeNoteById(mNoteId);
+                finish();
+                break;
+        }
     }
+
 }
+
+
+

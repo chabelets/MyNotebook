@@ -1,33 +1,5 @@
 package com.example.tom.mynotebook.activities;
 
-//import android.os.Bundle;
-//import android.support.annotation.Nullable;
-//import android.support.v7.app.AppCompatActivity;
-//import android.widget.EditText;
-//
-//import com.example.tom.mynotebook.R;
-//
-//public class RegistrationActivity extends AppCompatActivity{
-//
-//    private EditText login;
-//    private EditText password;
-//    private EditText confirmPassword;
-//
-//    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_registration);
-//
-//        login = findViewById(R.id.loginEditTextSignInActivity);
-//        password = findViewById(R.id.passwordEditTextSignInActivity);
-//        confirmPassword = findViewById(R.id.confirmPasswordEditTextSignInActivity);
-//
-//
-//
-//    }
-//}
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

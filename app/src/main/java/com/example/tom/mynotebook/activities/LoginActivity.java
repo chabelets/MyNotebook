@@ -1,16 +1,13 @@
 package com.example.tom.mynotebook.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.backendless.Backendless;
 import com.backendless.BackendlessUser;
 import com.backendless.async.callback.AsyncCallback;
@@ -61,14 +58,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick( View v )
             {
-                EditText emailField = (EditText) findViewById( R.id.loginEditTextLoginActivity );
-                EditText passwordField = (EditText) findViewById( R.id.passwordEditTextLoginActivity );
+                EditText emailField = findViewById( R.id.loginEditTextLoginActivity );
+                EditText passwordField = findViewById( R.id.passwordEditTextLoginActivity );
+                emailField.requestFocus();
 
                 CharSequence email = emailField.getText();
                 CharSequence password = passwordField.getText();
 
-                if( isLoginValuesValid( email, password ) )
-                {
+                if( isLoginValuesValid( email, password ) ){
                     LoadingCallback<BackendlessUser> loginCallback = createLoginCallback();
 
                     loginCallback.showLoading();
@@ -103,6 +100,5 @@ public class LoginActivity extends AppCompatActivity {
     {
         return Validator.isEmailValid( this, email ) && Validator.isPasswordValid( this, password );
     }
-
 
 }

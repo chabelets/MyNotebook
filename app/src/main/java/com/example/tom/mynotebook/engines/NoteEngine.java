@@ -6,6 +6,7 @@ import com.example.tom.mynotebook.models.NoteEntity;
 import com.example.tom.mynotebook.wrappers.NoteDBWrapper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NoteEngine {
 
@@ -25,9 +26,9 @@ public class NoteEngine {
         noteDBWrapper.insertNote(note);
     }
 
-    public void getAllNotes(AllNotesData callback){
-//        NoteDBWrapper noteDBWrapper = new NoteDBWrapper(getContext());
-//        ArrayList<NoteEntity> noteEntities = noteDBWrapper.getAllNotes();
+    public List<NoteEntity> getAllNotes(){
+        NoteDBWrapper noteDBWrapper = new NoteDBWrapper(mContext);
+        return noteDBWrapper.getAllNotes();
     }
 
     public void updateNote(NoteEntity note){
@@ -35,7 +36,9 @@ public class NoteEngine {
         noteDBWrapper.updateNote(note);
     }
 
-    public interface AllNotesData {
-        void onLoadAllUserData(ArrayList<NoteEntity> data);
+    public void removeNoteById (long nId){
+        NoteDBWrapper noteDBWrapper = new NoteDBWrapper(mContext);
+        noteDBWrapper.removeUser(nId);
     }
+
 }

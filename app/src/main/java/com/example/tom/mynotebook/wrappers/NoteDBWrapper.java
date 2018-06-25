@@ -34,7 +34,6 @@ public class NoteDBWrapper extends BaseDBWrapper {
         return result;
     }
 
-
     public NoteEntity getNoteById(long nId) {
         NoteEntity result = null;
         SQLiteDatabase db = getReadableDB();
@@ -47,18 +46,16 @@ public class NoteDBWrapper extends BaseDBWrapper {
                 int nPositionHeadline = cursor.getColumnIndex(DBConstants.DB_FIELD_HEADLINE);
                 int nPositionNoteText = cursor.getColumnIndex(DBConstants.DB_FIELD_NOTE_TEXT);
 
-                String strHeadLine = cursor.getString(nPositionHeadline);
+                String strHeadline = cursor.getString(nPositionHeadline);
                 String strNoteText = cursor.getString(nPositionNoteText);
 
-                result = new NoteEntity(strHeadLine, strNoteText);
+                result = new NoteEntity(strHeadline, strNoteText);
             }
             cursor.close();
         }
-
         db.close();
         return result;
     }
-
 
     public void insertNote(NoteEntity note) {
         SQLiteDatabase db = getWritableDB();
@@ -71,6 +68,14 @@ public class NoteDBWrapper extends BaseDBWrapper {
         String strSelection = DBConstants.DB_FIELD_ID + "=?";
         String[] argSelection = new String[]{Long.toString(note.getNoteId())};
         db.update(getTableName(), note.getContentValues(), strSelection, argSelection);
+        db.close();
+    }
+
+    public void removeUser (long nId){
+        SQLiteDatabase db = getWritableDB();
+        String strSelection = DBConstants.DB_FIELD_ID + "=?";
+        String[] argSelection = new String[]{Long.toString(nId)};
+        db.delete(getTableName(), strSelection, argSelection);
         db.close();
     }
 }

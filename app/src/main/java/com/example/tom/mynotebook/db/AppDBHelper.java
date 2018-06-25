@@ -15,13 +15,10 @@ public class AppDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + DBConstants.DB_TABLE_NAME +
-                "( " + DBConstants.DB_FIELD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-        DBConstants.DB_FIELD_HEADLINE + " TEXT NOT NULL, " +
-        DBConstants.DB_FIELD_NOTE_TEXT + " TEXT);");
+                " (" + DBConstants.DB_FIELD_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DBConstants.DB_FIELD_HEADLINE + " TEXT NOT NULL, " +
+                DBConstants.DB_FIELD_NOTE_TEXT + " TEXT);");
     }
-
-
-
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
