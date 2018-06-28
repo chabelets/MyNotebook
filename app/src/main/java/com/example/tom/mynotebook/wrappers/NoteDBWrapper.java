@@ -79,3 +79,4 @@ public class NoteDBWrapper extends BaseDBWrapper {
         db.close();
     }
 }
+

@@ -89,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
             {
                 super.handleResponse( loggedInUser );
                 Intent loginIntent = new Intent(LoginActivity.this, MainActivity.class);
+//                loginIntent.putExtra()
                 startActivityForResult( loginIntent, REGISTER_REQUEST_CODE );
                 finish();
                 Toast.makeText( LoginActivity.this, String.format( getString( R.string.info_logged_in ), loggedInUser.getObjectId() ), Toast.LENGTH_LONG ).show();
